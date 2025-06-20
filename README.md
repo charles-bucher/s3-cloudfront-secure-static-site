@@ -1,115 +1,122 @@
- Static Website Hosting with AWS S3 and CloudFront
-
-This project demonstrates how to host a static website on AWS using Amazon S3 for storage and Amazon CloudFront as a global Content Delivery Network (CDN). The setup provides fast, secure, and scalable delivery of static website content worldwide.
-
----
-
-## Prerequisites
-
-- AWS CLI installed and configured with AWS credentials  
-- An active AWS account with permissions to create and manage S3 buckets, CloudFront distributions, and ACM certificates  
-- Basic familiarity with AWS services (S3, CloudFront) is helpful but not required  
-
----
+# Static Website Hosting with AWS S3 and CloudFront
 
 ## Project Overview
+This project demonstrates how to host a static website on AWS using Amazon S3 for storage and Amazon CloudFront as a global Content Delivery Network (CDN). The setup provides fast, secure, and scalable delivery of static website content worldwide.
 
-This repository contains the steps and scripts to:  
-1. Create and configure an S3 bucket for static website hosting  
-2. Upload website files to the S3 bucket  
-3. Set up a CloudFront distribution to serve the website globally with caching and HTTPS support  
-4. Manage updates and cache invalidation for content refresh  
+## What I Did
+- Created an S3 bucket configured for static website hosting  
+- Uploaded static website files (HTML, CSS, JS) to the S3 bucket  
+- Configured bucket policy to allow public read access and restricted CloudFront access  
+- Set up CloudFront distribution pointing to the S3 bucket endpoint  
+- Configured SSL certificate using AWS Certificate Manager (ACM) for HTTPS  
+- Tested website availability and performance via CloudFront  
+- Enabled server-side encryption (SSE-S3) for data at rest  
 
----
+## Bucket Details
+- Bucket name: `mys3bucket813`  
+- Region: us-east-2 (Ohio)  
+- Static website endpoint: `http://mys3bucket813.s3-website.us-east-2.amazonaws.com`  
+- Public access: Enabled via bucket policy  
+- Versioning: Disabled  
+- Encryption: SSE-S3 (Amazon-managed keys)  
 
-## Setup Instructions
+## How to Deploy
 
-### 1. Create and Configure the S3 Bucket for Static Website Hosting
-
+### 1. Create and Configure the S3 Bucket
 ```bash
-# Create a new S3 bucket (replace your-unique-bucket-name)
-aws s3 mb s3://your-unique-bucket-name
-
-# Enable static website hosting on the bucket
-aws s3 website s3://your-unique-bucket-name --index-document index.html
-Configure the bucket policy to allow CloudFront access only (recommended), or make the bucket public for simple use.
-
-Avoid leaving the bucket open to the public to prevent unauthorized access.
-
-2. Upload Website Files to the Bucket
+aws s3 mb s3://mys3bucket813 --region us-east-2
+aws s3 website s3://mys3bucket813 --index-document index.html
+2. Upload Website Files
 bash
 Copy
 Edit
-# Sync your local website directory to S3 bucket
-aws s3 sync ./website-folder s3://your-unique-bucket-name
-Replace ./website-folder with your local path containing the static website files.
+aws s3 sync ./website s3://mys3bucket813
+Replace ./website with your local website folder path.
 
-3. Set Up CloudFront Distribution
-In the AWS Console or via CLI, create a CloudFront distribution:
+3. Set Bucket Policy for Public Read Access
+Add this bucket policy (adjust bucket name and CloudFront distribution ARN):
 
-Set the origin domain to your S3 bucket’s website endpoint (e.g., your-unique-bucket-name.s3-website-us-east-1.amazonaws.com)
+json
+Copy
+Edit
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowPublicRead",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::mys3bucket813/*"
+    },
+    {
+      "Sid": "AllowCloudFrontServicePrincipal",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "cloudfront.amazonaws.com"
+      },
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::mys3bucket813/*",
+      "Condition": {
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:cloudfront::281202093602:distribution/E3B27N2S0OOHK0"
+        }
+      }
+    }
+  ]
+}
+4. Create CloudFront Distribution
+Origin domain: mys3bucket813.s3-website.us-east-2.amazonaws.com
 
-Enable SSL using AWS Certificate Manager (ACM) if you use a custom domain
+Enable SSL with ACM certificate for HTTPS
 
-Configure caching behaviors as needed
+Configure caching as needed
 
-Optionally, use Origin Access Identity (OAI) to restrict direct S3 bucket access, allowing only CloudFront to fetch content.
+5. Test Website
+Open your CloudFront domain URL in a browser. Your static site should load quickly.
 
-4. Test Your Website
-Open the CloudFront distribution URL in your browser.
-
-Your static website should load quickly via the CDN.
-
-5. Update Website Content and Invalidate Cache
-To update content, sync the new files again:
+6. Update Website Content
+To update the site:
 
 bash
 Copy
 Edit
-aws s3 sync ./website-folder s3://your-unique-bucket-name
-Invalidate CloudFront cache to propagate changes immediately:
+aws s3 sync ./website s3://mys3bucket813
+Invalidate CloudFront cache to apply changes immediately:
 
 bash
 Copy
 Edit
 aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
-Security Considerations
-Use CloudFront Origin Access Identity (OAI) to prevent public S3 bucket access.
+Security Notes
+Bucket owner enforced setting disables ACLs; all access controlled via bucket policy
 
-Avoid making S3 buckets publicly readable unless necessary.
+Server-side encryption with SSE-S3 enabled by default
 
-Regularly review bucket policies and CloudFront settings.
-
-Project Structure
-bash
-Copy
-Edit
-/website-folder
-  ├── index.html
-  ├── css/
-  ├── js/
-  └── images/
-Place all static assets in the /website-folder directory before syncing to S3.
+Bucket versioning is off — consider enabling for protection against accidental deletions
 
 Next Steps / Enhancements
-Automate deployment using Terraform or CloudFormation scripts
+Enable bucket versioning for better object recovery
 
-Add HTTPS with a custom domain via Route 53 and ACM
+Add logging and monitoring with CloudWatch
 
-Configure CloudFront Lambda@Edge functions for personalization or redirects
+Automate deployment using Terraform or CloudFormation
 
-Enable logging and monitoring via AWS CloudWatch
+Use Origin Access Identity (OAI) to restrict S3 bucket access exclusively to CloudFront
 
-Resources & References
-AWS S3 Static Website Hosting Guide
+Add custom domain with Route 53 and ACM for branded HTTPS
+
+Resources
+AWS S3 Static Website Hosting
 
 AWS CloudFront Developer Guide
 
-How to Use Origin Access Identity
+AWS Certificate Manager (ACM)
 
-Contact
-For questions or feedback, please open an issue or reach out.
+For questions or feedback, please open an issue or contact me directly.
 
 yaml
 Copy
 Edit
+
+---
