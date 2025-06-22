@@ -1,104 +1,65 @@
 Static Website Hosting with AWS S3 & CloudFront
-This project demonstrates how to deploy a fully functional, scalable static website using Amazon S3 for storage and Amazon CloudFront as a global Content Delivery Network (CDN) to optimize site performance, availability, and security.
+Host a fast, scalable, and secure static website using AWS S3 and CloudFront CDN
 
-🚀 Project Overview
-Host a static website (HTML/CSS/JS) with Amazon S3 as the origin storage.
+Project Purpose
+This project demonstrates how to deploy a fully static website using Amazon S3 for storage and AWS CloudFront as a global content delivery network (CDN). It ensures low-latency, high availability, and HTTPS security for static web assets with zero server management.
 
-Serve the website globally with low latency using CloudFront CDN.
+Features
+Host static website content on S3 with public read access
 
-Configure HTTPS with CloudFront (optional).
+Use CloudFront distribution for CDN acceleration and HTTPS
 
-Manage all infrastructure with Infrastructure as Code (IaC) using Terraform.
+Cache control for improved website performance
 
-Automate deployment with Bash scripts (optional).
+Simple setup leveraging AWS infrastructure-as-code concepts
 
-🧰 Tech Stack
-AWS S3 – Durable, scalable static file storage.
+Easily customizable for any static site (HTML, CSS, JS, images)
 
-AWS CloudFront – CDN for fast content delivery worldwide.
-
-Terraform – IaC tool to provision S3 bucket, CloudFront distribution, and IAM policies.
-
-Bash Scripts – Automate deployment and syncing of website files.
-
-GitHub – Source control and version history.
-
-📁 Repository Structure
-php
-Copy
-Edit
-static-s3-with-cloud-front/
-│
-├── terraform/                 # Terraform configs for AWS infra
-│   ├── main.tf
-│   ├── variables.tf
-│   ├── outputs.tf
-│   └── provider.tf
-│
-├── website/                   # Static website source files
-│   ├── index.html
-│   ├── styles.css
-│   └── assets/
-│       └── images/
-│
-├── scripts/                   # Deployment automation scripts
-│   └── deploy.sh
-│
-└── README.md                  # Project overview and instructions
-⚙️ How to Deploy
 Prerequisites
-AWS CLI configured with proper credentials
+AWS CLI installed and configured with proper permissions
 
-Terraform installed
+AWS account with S3 and CloudFront access
 
-Access to an AWS account with permissions to create S3 buckets and CloudFront distributions
+Terraform (if used for deployment automation) or AWS Management Console access
 
-Deployment Steps
-Initialize Terraform
+Basic knowledge of AWS services and static website hosting concepts
 
-bash
-Copy
-Edit
-cd terraform
-terraform init
-Plan & Apply Infrastructure
+Setup & Deployment
+Manual Setup (AWS Console)
+Create an S3 bucket configured for static website hosting
 
-bash
-Copy
-Edit
-terraform plan
-terraform apply
-Deploy Static Website
+Upload your static site files (HTML, CSS, JS) to the bucket
 
-Use the deployment script to sync your local website files to the S3 bucket:
+Set bucket policy for public read access
 
-bash
-Copy
-Edit
-bash ../scripts/deploy.sh
-Access Your Website
+Create a CloudFront distribution pointing to the S3 bucket endpoint
 
-After deployment, find the CloudFront domain name in Terraform outputs or AWS Console and open it in your browser.
+Configure SSL certificate for HTTPS (optional, via AWS Certificate Manager)
 
-🔐 Security & Best Practices
-S3 bucket configured for public read only on website files.
+Update DNS settings (Route 53 or other DNS) to point to CloudFront domain
 
-CloudFront used to distribute content securely over HTTPS.
+Automated Setup (Terraform / Scripts)
+(If applicable — insert instructions here on running Terraform or deployment scripts)
 
-IAM policies scoped with least privilege.
+Usage
+Upload or update static files in the S3 bucket to update your website content
 
-Terraform used for repeatable, version-controlled infrastructure.
+Access your website via the CloudFront distribution URL or your custom domain
 
-🚀 Future Improvements
-Add Route53 DNS integration for a custom domain.
+Monitor and manage performance via AWS CloudFront metrics and S3 usage reports
 
-Automate TLS certificates with AWS Certificate Manager.
+Technical Details
+S3 bucket configured with static website hosting enabled
 
-Add CI/CD pipeline with GitHub Actions.
+Bucket policy allows public read for website files
 
-Optimize website for SEO and accessibility.
+CloudFront distribution with origin set to S3 bucket static website endpoint
 
-👤 About Me
-Charles T Bucher (Tommy813)
-Junior Cloud Engineer | Infrastructure Automation Enthusiast
+Cache behavior optimized for static content delivery
 
+Optional SSL with AWS Certificate Manager for HTTPS security
+
+Notes
+Ensure that sensitive files are not uploaded to the public bucket
+
+Configure cache invalidation in CloudFront for instant updates if needed
