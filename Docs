@@ -1,1 +1,36 @@
+# Static Website Architecture: S3 + CloudFront
 
+## 🧠 Overview
+
+This document explains how this project uses **Amazon S3** and **CloudFront** to host and deliver a static website at global scale using infrastructure-as-code (Terraform).
+
+The setup:
+- Stores HTML, CSS, JS in an S3 bucket
+- Delivers it globally via CloudFront CDN
+- Uses Origin Access Control (OAC) for secure, private S3 content
+- Entirely automated with Terraform
+
+---
+
+## ⚙️ Components
+
+### 1. Amazon S3 (Static Web Hosting)
+
+- Stores your static files (`index.html`, CSS, JS, images)
+- Website mode enabled in the bucket (for routing)
+- Public access **blocked** – content served only via CloudFront
+
+### 2. CloudFront (CDN)
+
+- Global edge delivery
+- Handles HTTPS and performance caching
+- Uses **OAC** to securely fetch from private S3
+
+### 3. Terraform
+
+- Defines, deploys, and manages both services
+- Tracks state for repeatable, version-controlled infra
+
+---
+
+## 📈 Architecture Flow
