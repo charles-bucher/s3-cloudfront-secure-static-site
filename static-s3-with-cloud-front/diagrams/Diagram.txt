@@ -1,0 +1,6 @@
++-----------------+      +---------------------+      +--------------------+
+|                 |      |                     |      |                    |
+|   End User      +----->|   AWS CloudFront     +----->|    AWS S3 Bucket    |
+| (Browser/Client)|      | (CDN & HTTPS Layer)  |      | (Static Website     |
+|                 |      |                     |      |  Hosting Storage)   |
++-----------------+      +---------------------+      +--------------------+
