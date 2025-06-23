@@ -1,1 +1,34 @@
 
+# Terraform files to ignore (state files and sensitive data)
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
+terraform.tfvars.json
+
+# Crash logs
+crash.log
+
+# Ignore local IDE/editor config files
+.vscode/
+.idea/
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Sensitive files you might accidentally add
+*.pem
+*.key
+*.crt
+*.env
+
+# Node.js (if you have frontend code)
+node_modules/
+dist/
+
+# Logs
+*.log
+
+# Backup files
