@@ -1,99 +1,111 @@
+# Static Website Hosting with S3 and CloudFront
 
-# Static Website with S3 and CloudFront (Terraform)
-
-This project demonstrates how to deploy a **secure, scalable, static website** on AWS using **S3**, **CloudFront**, and **Terraform**. It follows infrastructure-as-code principles to automate the entire setup — a key skill for modern cloud engineers.
-
----
-
-## 🚀 **Project Overview**
-
-✅ Deploy a private S3 bucket to host website files  
-✅ Configure a public CloudFront distribution to deliver content globally  
-✅ Automate infrastructure deployment with Terraform  
-✅ Improve performance and security using CloudFront CDN  
-✅ Follows best practices for real-world Infrastructure as Code  
+## 📦 Project Overview
+This project demonstrates how to host a secure, scalable static website using **Amazon S3** for storage and **CloudFront** for global content delivery. This architecture is commonly used for websites, portfolios, product landing pages, and static apps that require low-latency performance worldwide.
 
 ---
 
-## 🛠️ **Tech Stack**
+## 🏗️ Architecture Diagram
 
-- **AWS S3** — Static website storage  
-- **AWS CloudFront** — Global CDN for fast, secure delivery  
-- **Terraform** — Infrastructure as Code (IaC)  
-- **AWS IAM** — Secure access control  
-- **Bash** — For local command-line operations  
-
----
-
-## 🗂️ **Project Structure**
-
-. ├── main.tf              # Core infrastructure resources ├── variables.tf         # Input variables ├── outputs.tf           # Output values (e.g., CloudFront URL) ├── provider.tf          # AWS provider configuration ├── s3-website-files/    # Static website content └── README.md            # Project documentation
+```plaintext
+┌─────────────────────┐         ┌──────────────────┐
+│      Users          │  HTTPS  │  CloudFront CDN  │
+└─────────────────────┘  <────> └──────────────────┘
+                              │  S3 Bucket (Website)
+                              └──────────────────┘
+```
 
 ---
 
-## 🌍 **Architecture Diagram**
-
-![Architecture Diagram](https://dummyimage.com/600x400/000/fff&text=S3+%2B+CloudFront+Architecture)
-
-*Diagram shows how S3 stores website content and CloudFront distributes it globally.*
-
----
-
-## ⚡ **Deployment Steps**
-
-**Pre-Requisites:**  
-✅ AWS CLI configured  
-✅ Terraform installed  
-✅ AWS credentials with permissions for S3, CloudFront, and IAM  
-
-**Steps:**  
-
-```bash
-# Initialize Terraform
-terraform init
-
-# Preview changes
-terraform plan
-
-# Deploy infrastructure
-terraform apply
-
-# Grab your CloudFront URL from outputs and test the website
-
+## ☁️ Tech Stack
+- **AWS S3** — Static Website Hosting
+- **AWS CloudFront** — Content Delivery Network
+- **Route 53** (Optional) — Custom Domain Management
+- **Terraform** (Optional) — Infrastructure as Code
+- **GitHub Actions** (Optional) — Automated Deployment
 
 ---
 
-🧹 Teardown
-
-terraform destroy
-
-This will remove all resources created by the project.
-
-
----
-
-🎯 Use Case
-
-✅ Showcases AWS fundamentals
-✅ Demonstrates real-world IaC skills
-✅ Portfolio-ready for cloud/infra engineer roles
-✅ Helps prepare for interviews or cert projects
-
+## 🚀 Features
+✅ Global content delivery with CloudFront CDN  
+✅ Secure, highly available static website hosting  
+✅ Optional automation with Terraform and CI/CD  
+✅ Infrastructure as Code ready for reproducibility  
 
 ---
 
-📦 Future Improvements
-
-Add HTTPS with ACM certificate
-
-Integrate GitHub Actions for CI/CD
-
-Auto-upload website content to S3 via pipeline
-
-
+## 📂 Project Structure
+```plaintext
+.
+├── s3-website-files/       # Static website files (HTML, CSS, JS)
+├── terraform/               # Terraform configuration (optional)
+└── README.md                # Project documentation
+```
 
 ---
 
-👤 Author
+## 🔧 Step-by-Step Deployment
 
-Tommy813-lab
+### **Manual Steps:**
+1. **Create S3 Bucket:**
+   - Enable static website hosting
+   - Upload your `index.html` and other site files
+2. **Configure CloudFront:**
+   - Set S3 bucket as origin
+   - Enable HTTPS (optional)
+3. **Access Website:**
+   - Use the CloudFront domain or custom domain if configured
+
+---
+
+### **Automated with Terraform (Optional):**
+1. Navigate to the `terraform/` directory:
+   ```bash
+   cd terraform
+   ```
+2. Initialize and deploy:
+   ```bash
+   terraform init
+   terraform apply
+   ```
+3. Terraform provisions:
+   - S3 Bucket
+   - CloudFront Distribution
+   - Optional Route 53 DNS records
+
+---
+
+### **Automated CI/CD with GitHub Actions (Optional):**
+Set up a GitHub Actions workflow to automatically deploy updates to S3 and invalidate CloudFront cache on push. (Coming soon)
+
+---
+
+## 🌐 Live Demo (Optional)
+Add your CloudFront or custom domain here once deployed.
+
+---
+
+## 🛡️ Security Best Practices
+- Block public access at the bucket level, only allow CloudFront
+- Enable CloudFront HTTPS
+- Use S3 bucket policies for controlled access
+
+---
+
+## 🎯 Why This Project Matters
+Static site hosting with S3 + CloudFront is a go-to solution for scalable, global, low-cost web hosting. It demonstrates core cloud skills employers look for in infrastructure and DevOps candidates.
+
+---
+
+## 📌 Future Improvements
+- Full GitHub Actions deployment pipeline
+- Terraform refinements (variable files, modules)
+- Add custom domain with Route 53
+
+---
+
+## 🙌 Credits
+Built by [Charles Bucher](https://github.com/Tommy813-lab) as part of cloud infrastructure learning projects.
+
+---
+
