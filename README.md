@@ -1,4 +1,4 @@
- Static Website Hosting on AWS S3 with CloudFront CDN
+# Static Website Hosting on AWS S3 with CloudFront CDN
 
 [![AWS](https://img.shields.io/badge/AWS-Cloud-232F3E?style=flat&logo=amazonaws)](https://aws.amazon.com)  
 [![GitHub Actions](https://img.shields.io/badge/CI/CD-GitHub%20Actions-2088FF?style=flat&logo=github)](https://github.com/features/actions)  
@@ -7,14 +7,16 @@
 
 ## Overview
 
-This project demonstrates hosting a **static single-page application (SPA)** on **AWS S3** backed by **CloudFront CDN** for global low-latency delivery, HTTPS security, and scalability. It includes automation of deployment using **GitHub Actions** and best practices such as:
+This project demonstrates hosting a **static single-page application (SPA)** on **AWS S3** with a **CloudFront CDN** distribution for fast, secure, global delivery. The deployment pipeline is fully automated using **GitHub Actions** with cache invalidation.
 
-- HTTPS with custom domain support  
-- Automatic redirects (`www` to apex domain)  
-- Cache control and CloudFront cache invalidation  
-- SPA-friendly routing (fallback to `index.html`)  
-- Security headers to improve site security  
-- Least-privilege IAM roles for deployment  
+Key features include:
+
+- Static website hosting on S3 with public read access  
+- CloudFront CDN with HTTPS and caching  
+- SPA routing support via CloudFront custom error responses  
+- Automated CI/CD with GitHub Actions  
+- Cache invalidation to ensure fresh content delivery  
+- Basic security headers configured via CloudFront response policies  
 
 ---
 
@@ -22,119 +24,98 @@ This project demonstrates hosting a **static single-page application (SPA)** on 
 
 ![Architecture Diagram](./docs/aws-architecture-diagram.png)
 
-1. **Source Code & Static Assets** are stored in this repo.  
-2. **GitHub Actions** triggers on `main` branch push to:  
-   - Build assets (if needed)  
-   - Upload to S3 bucket  
-   - Invalidate CloudFront cache  
-3. **CloudFront** serves content securely worldwide with HTTPS and caching.  
-4. **S3 Bucket** hosts the static website with proper bucket policies.
-
----
-
-## Features
-
-| Feature | Description |
-|-|-|
-| Static website hosting | S3 bucket configured for static website hosting |
-| CDN & HTTPS | CloudFront distribution with SSL certificate via AWS Certificate Manager |
-| SPA routing | CloudFront error handling configured to serve `index.html` on 404s |
-| GitHub Actions CI/CD | Automated deployment pipeline triggered on push |
-| Cache invalidation | CloudFront caches are invalidated automatically after deploy |
-| Security headers | HTTP security headers set via CloudFront Response Headers Policies |
-| Least privilege IAM | Deployment uses scoped IAM roles via OIDC and GitHub Actions |
-| Domain redirects | Redirects from `www` to apex domain (or vice versa) |
-
----
-
-## Prerequisites
-
-- AWS Account with permissions to create S3, CloudFront, IAM roles  
-- Domain managed in Route53 or other DNS (optional)  
-- GitHub repository with GitHub Actions enabled  
-- AWS CLI configured locally (for manual testing)
-
----
-
-## Setup & Deployment
-
-### 1. Configure AWS Resources
-
-- Create an S3 bucket configured for static website hosting.  
-- Create a CloudFront distribution with:  
-  - S3 bucket as origin  
-  - Custom error response for 404 pointing to `/index.html` for SPA support  
-  - Response Headers Policies for security headers  
-- Setup ACM SSL certificate for your domain.  
-
-### 2. Configure GitHub Secrets
-
-Add the following secrets to your GitHub repository:
-
-| Secret Name | Description |
-|-------------|-------------|
-| `AWS_ACCOUNT_ID` | Your AWS account ID |
-| `AWS_REGION` | AWS region for resources (e.g., us-east-1) |
-| `AWS_ROLE_TO_ASSUME` | IAM Role ARN with deployment permissions |
-| `AWS_WEB_IDENTITY_TOKEN_FILE` | OIDC token file path (automated by Actions) |
-
-### 3. Deployment via GitHub Actions
-
-- Push changes to the `main` branch triggers deployment workflow.  
-- The workflow builds your assets (if applicable), syncs to S3, and invalidates CloudFront cache.
-
----
-
-## CloudFront SPA Routing Configuration
-
-To support client-side routing (React, Angular, Vue), CloudFront is configured to return the `index.html` page for 403/404 errors. This ensures direct navigation to internal routes does not result in a 404 error from CloudFront.
-
----
-
-## Security Headers Implemented
-
-| Header | Purpose |
-|-|-|
-| `Strict-Transport-Security` | Enforces HTTPS only |
-| `Content-Security-Policy` | Prevents XSS and data injection attacks |
-| `X-Frame-Options` | Prevents clickjacking |
-| `X-Content-Type-Options` | Stops MIME sniffing |
-| `Referrer-Policy` | Controls referrer information sent with requests |
-
-These headers are configured via CloudFront Response Headers Policy for best performance.
-
----
-
-## Cache Control & Invalidation
-
-Static assets use cache control headers for optimal CDN caching. After each deployment, GitHub Actions invalidates CloudFront cache to ensure users get the latest updates immediately.
-
 ---
 
 ## Folder Structure
 
-/.github/workflows/ # GitHub Actions CI/CD workflows
-/src/ # Source code or static assets
-/docs/ # Documentation and architecture diagrams
-/README.md # Project overview and instructions
+.github/workflows/ # GitHub Actions workflows for CI/CD
+src/ # Static website files to deploy
+docs/ # Documentation and diagrams
+README.md # This file
 
 yaml
 Copy code
 
 ---
 
-## Future Enhancements
+## Prerequisites
 
-- Add Terraform or CloudFormation templates for automated infra provisioning  
-- Implement multi-environment deployments (dev/staging/prod)  
-- Add integration tests for deployment pipeline  
-- Monitor site health with CloudWatch and alerts  
+- AWS account with permissions to create S3, CloudFront, IAM roles  
+- GitHub repository with Actions enabled  
+- (Optional) Custom domain and SSL certificates via AWS ACM  
+
+---
+
+## Setup and Deployment
+
+### 1. Configure AWS Resources Manually (Optional)
+
+- Create an S3 bucket configured for static website hosting.  
+- Create a CloudFront distribution with:  
+  - Origin set to S3 static website endpoint  
+  - Default root object: `index.html`  
+  - Custom error responses for 403 and 404 to `index.html` (SPA routing)  
+  - Response headers policy for security headers  
+- Configure your domain and SSL certs (if applicable).
+
+> Alternatively, automate all infra provisioning with Terraform using the provided scripts in the `terraform/` folder.
+
+### 2. Configure GitHub Secrets
+
+Add the following secrets to your GitHub repository settings:
+
+| Secret Name        | Description                         |
+|--------------------|-----------------------------------|
+| `AWS_ROLE_TO_ASSUME`| ARN of IAM role with deploy rights |
+| `AWS_REGION`       | AWS region (e.g., us-east-1)      |
+
+### 3. Deploy via GitHub Actions
+
+- Push your changes to the `main` branch.  
+- The workflow defined in `.github/workflows/deploy.yml` will:  
+  - Sync your static files from `src/` to the S3 bucket  
+  - Invalidate CloudFront cache to update content globally  
+
+---
+
+## SPA Routing Support
+
+CloudFront is configured to redirect 403 and 404 errors to `index.html`. This allows client-side routing frameworks (React Router, Vue Router, etc.) to work properly by always serving the SPA entry point.
+
+---
+
+## Security Headers
+
+The CloudFront distribution applies HTTP security headers including:
+
+- Strict-Transport-Security (HSTS)  
+- Content-Security-Policy (CSP)  
+- X-Frame-Options  
+- X-Content-Type-Options  
+- Referrer-Policy  
+
+These improve security by enforcing HTTPS, preventing clickjacking, and controlling content loading policies.
+
+---
+
+## Cache Invalidation
+
+After each deployment, CloudFront caches are invalidated automatically to ensure visitors get the latest version of your site without stale content delays.
+
+---
+
+## Future Improvements
+
+- Full Infrastructure as Code (IaC) with Terraform for provisioning S3, CloudFront, ACM, and Route53.  
+- Add staging and production environments.  
+- Integrate automated testing and linting in the CI pipeline.  
+- Add monitoring and alerting for CloudFront and S3 using AWS CloudWatch.  
 
 ---
 
 ## About Me
 
-I’m Tommy, a junior cloud engineer focused on AWS infrastructure automation and DevOps. This project demonstrates my skills in modern cloud hosting, CI/CD pipelines, and security best practices.
+I’m Tommy, a Junior Cloud Engineer building real-world AWS infrastructure and CI/CD pipelines. This project demonstrates my ability to automate cloud deployments and manage secure, scalable static website hosting.
 
 ---
 
@@ -146,9 +127,11 @@ MIT License © 2025 Tommy
 
 ## Questions or Feedback?
 
-Open an issue or reach out via GitHub discussions — I’m eager to collaborate and improve this project!
+Feel free to open an issue or contact me via GitHub discussions. I’m eager to improve this project and collaborate.
 
---
+---
+
+
 
 
 
