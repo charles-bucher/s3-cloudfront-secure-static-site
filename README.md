@@ -1,143 +1,99 @@
-# Static Website Hosting on AWS S3 with CloudFront CDN
 
-[![AWS](https://img.shields.io/badge/AWS-Cloud-232F3E?style=flat&logo=amazonaws)](https://aws.amazon.com)  
-[![GitHub Actions](https://img.shields.io/badge/CI/CD-GitHub%20Actions-2088FF?style=flat&logo=github)](https://github.com/features/actions)  
+# Static Website with S3 and CloudFront (Terraform)
 
----
-
-## Overview
-
-This project demonstrates hosting a **static single-page application (SPA)** on **AWS S3** with a **CloudFront CDN** distribution for fast, secure, global delivery. The deployment pipeline is fully automated using **GitHub Actions** with cache invalidation.
-
-Key features include:
-
-- Static website hosting on S3 with public read access  
-- CloudFront CDN with HTTPS and caching  
-- SPA routing support via CloudFront custom error responses  
-- Automated CI/CD with GitHub Actions  
-- Cache invalidation to ensure fresh content delivery  
-- Basic security headers configured via CloudFront response policies  
+This project demonstrates how to deploy a **secure, scalable, static website** on AWS using **S3**, **CloudFront**, and **Terraform**. It follows infrastructure-as-code principles to automate the entire setup — a key skill for modern cloud engineers.
 
 ---
 
-## Architecture Diagram
+## 🚀 **Project Overview**
 
-![Architecture Diagram](./docs/aws-architecture-diagram.png)
-
----
-
-## Folder Structure
-
-.github/workflows/ # GitHub Actions workflows for CI/CD
-src/ # Static website files to deploy
-docs/ # Documentation and diagrams
-README.md # This file
-
-yaml
-Copy code
+✅ Deploy a private S3 bucket to host website files  
+✅ Configure a public CloudFront distribution to deliver content globally  
+✅ Automate infrastructure deployment with Terraform  
+✅ Improve performance and security using CloudFront CDN  
+✅ Follows best practices for real-world Infrastructure as Code  
 
 ---
 
-## Prerequisites
+## 🛠️ **Tech Stack**
 
-- AWS account with permissions to create S3, CloudFront, IAM roles  
-- GitHub repository with Actions enabled  
-- (Optional) Custom domain and SSL certificates via AWS ACM  
-
----
-
-## Setup and Deployment
-
-### 1. Configure AWS Resources Manually (Optional)
-
-- Create an S3 bucket configured for static website hosting.  
-- Create a CloudFront distribution with:  
-  - Origin set to S3 static website endpoint  
-  - Default root object: `index.html`  
-  - Custom error responses for 403 and 404 to `index.html` (SPA routing)  
-  - Response headers policy for security headers  
-- Configure your domain and SSL certs (if applicable).
-
-> Alternatively, automate all infra provisioning with Terraform using the provided scripts in the `terraform/` folder.
-
-### 2. Configure GitHub Secrets
-
-Add the following secrets to your GitHub repository settings:
-
-| Secret Name        | Description                         |
-|--------------------|-----------------------------------|
-| `AWS_ROLE_TO_ASSUME`| ARN of IAM role with deploy rights |
-| `AWS_REGION`       | AWS region (e.g., us-east-1)      |
-
-### 3. Deploy via GitHub Actions
-
-- Push your changes to the `main` branch.  
-- The workflow defined in `.github/workflows/deploy.yml` will:  
-  - Sync your static files from `src/` to the S3 bucket  
-  - Invalidate CloudFront cache to update content globally  
+- **AWS S3** — Static website storage  
+- **AWS CloudFront** — Global CDN for fast, secure delivery  
+- **Terraform** — Infrastructure as Code (IaC)  
+- **AWS IAM** — Secure access control  
+- **Bash** — For local command-line operations  
 
 ---
 
-## SPA Routing Support
+## 🗂️ **Project Structure**
 
-CloudFront is configured to redirect 403 and 404 errors to `index.html`. This allows client-side routing frameworks (React Router, Vue Router, etc.) to work properly by always serving the SPA entry point.
-
----
-
-## Security Headers
-
-The CloudFront distribution applies HTTP security headers including:
-
-- Strict-Transport-Security (HSTS)  
-- Content-Security-Policy (CSP)  
-- X-Frame-Options  
-- X-Content-Type-Options  
-- Referrer-Policy  
-
-These improve security by enforcing HTTPS, preventing clickjacking, and controlling content loading policies.
+. ├── main.tf              # Core infrastructure resources ├── variables.tf         # Input variables ├── outputs.tf           # Output values (e.g., CloudFront URL) ├── provider.tf          # AWS provider configuration ├── s3-website-files/    # Static website content └── README.md            # Project documentation
 
 ---
 
-## Cache Invalidation
+## 🌍 **Architecture Diagram**
 
-After each deployment, CloudFront caches are invalidated automatically to ensure visitors get the latest version of your site without stale content delays.
+![Architecture Diagram](https://dummyimage.com/600x400/000/fff&text=S3+%2B+CloudFront+Architecture)
 
----
-
-## Future Improvements
-
-- Full Infrastructure as Code (IaC) with Terraform for provisioning S3, CloudFront, ACM, and Route53.  
-- Add staging and production environments.  
-- Integrate automated testing and linting in the CI pipeline.  
-- Add monitoring and alerting for CloudFront and S3 using AWS CloudWatch.  
+*Diagram shows how S3 stores website content and CloudFront distributes it globally.*
 
 ---
 
-## About Me
+## ⚡ **Deployment Steps**
 
-I’m Tommy, a Junior Cloud Engineer building real-world AWS infrastructure and CI/CD pipelines. This project demonstrates my ability to automate cloud deployments and manage secure, scalable static website hosting.
+**Pre-Requisites:**  
+✅ AWS CLI configured  
+✅ Terraform installed  
+✅ AWS credentials with permissions for S3, CloudFront, and IAM  
+
+**Steps:**  
+
+```bash
+# Initialize Terraform
+terraform init
+
+# Preview changes
+terraform plan
+
+# Deploy infrastructure
+terraform apply
+
+# Grab your CloudFront URL from outputs and test the website
+
 
 ---
 
-## License
+🧹 Teardown
 
-MIT License © 2025 Tommy
+terraform destroy
+
+This will remove all resources created by the project.
+
 
 ---
 
-## Questions or Feedback?
+🎯 Use Case
 
-Feel free to open an issue or contact me via GitHub discussions. I’m eager to improve this project and collaborate.
+✅ Showcases AWS fundamentals
+✅ Demonstrates real-world IaC skills
+✅ Portfolio-ready for cloud/infra engineer roles
+✅ Helps prepare for interviews or cert projects
+
 
 ---
 
+📦 Future Improvements
+
+Add HTTPS with ACM certificate
+
+Integrate GitHub Actions for CI/CD
+
+Auto-upload website content to S3 via pipeline
 
 
 
+---
 
+👤 Author
 
-
-
-
-
-
+Tommy813-lab
