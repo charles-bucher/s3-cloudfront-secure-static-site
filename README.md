@@ -1,173 +1,55 @@
-# 🛡️ Static Website Hosting with AWS S3, CloudFront & Terraform
+🌐 Static Website Architecture: S3 + CloudFront
+Built & Documented by Charles — Aspiring Cloud Engineer
+🧠 Overview
+This project shows how I set up a secure, fast, and globally available static website using Amazon S3 and CloudFront.
 
-## 📦 Project Overview
+The Setup:
 
-This project demonstrates how to deploy a **production-grade, secure, scalable static website** using:
+Static files like HTML, CSS, JS live in an S3 bucket
 
-✅ Amazon S3 for static site hosting  
-✅ CloudFront CDN for fast global content delivery  
-✅ Terraform for automated, reproducible infrastructure provisioning  
-✅ GitHub Actions for CI/CD (Completed/Planned)  
+CloudFront delivers the content worldwide for speed and reliability
 
-This architecture mirrors real-world, production AWS setups used for portfolios, landing pages, and static apps.
+Origin Access Control (OAC) keeps the S3 bucket private — only CloudFront can access it
 
----
+This type of architecture is common for portfolios, product pages, landing pages, or lightweight websites that need high performance and solid security.
 
-## 🗺️ Architecture Diagram
+⚙️ How It Works
+1. 🪣 Amazon S3 — Static File Storage
+Hosts static files: index.html, CSS, JS, images
 
-```
-┌─────────────────────┐      HTTPS      ┌─────────────────────┐
-│      Users          │ <─────────────> │   CloudFront CDN    │
-└─────────────────────┘                 └──────────┬──────────┘
-                                                   │
-                                Static Website Files│
-                                                   ▼
-                                      ┌─────────────────────┐
-                                      │   S3 Bucket (Origin)│
-                                      └─────────────────────┘
-```
+Static Website Hosting enabled for clean routing
 
----
+Public Access BLOCKED — bucket isn’t exposed directly to the internet
 
-## ☁️ Tech Stack
+Only CloudFront can fetch content from the bucket
 
-| Service           | Purpose                            |
-|-------------------|------------------------------------|
-| **AWS S3**        | Static Website Storage & Hosting   |
-| **AWS CloudFront**| Global Content Delivery & Caching  |
-| **Terraform**     | Infrastructure as Code Provisioning|
-| **Route 53** *(Optional)* | Custom Domain Management   |
-| **GitHub Actions** *(Optional)* | CI/CD Automation     |
+2. 🌍 Amazon CloudFront — Global Content Delivery
+Speeds up delivery using edge locations around the world
 
----
+Handles HTTPS, providing secure connections for users
 
-## 🚀 Features
+Uses Origin Access Control (OAC) so only CloudFront can access private S3 content
 
-✅ Global content delivery with CloudFront CDN  
-✅ Highly available, secure static website hosting  
-✅ Automated, reproducible infrastructure with Terraform  
-✅ CI/CD pipeline with GitHub Actions (when configured)  
-✅ Scalable foundation for portfolios, landing pages, product sites  
+Supports custom domain names and SSL certificates for branded, secure websites
 
----
+🔐 Security Highlights
+✅ S3 bucket kept private — no direct public access
+✅ Only CloudFront allowed to access the S3 bucket via OAC
+✅ HTTPS enforced for secure traffic
+✅ Bucket policies and CloudFront settings work together for extra protection
 
-## 🗂️ Project Structure
+🏁 Recap
+Feature	What’s Happening
+Storage	Amazon S3 (Static Website Hosting)
+Delivery	CloudFront (Global CDN)
+Security	OAC + HTTPS enforced
 
-```
-.
-├── Infrastructure/          # Infrastructure as Code (Terraform files)
-│   ├── main.tf
-│   ├── outputs.tf
-│   ├── variables.tf
-│   └── README.md
-│
-├── Docs/                    # Documentation and resources
-│
-├── website/                 # Static website files (HTML, CSS, JS)
-│   ├── index.html
-│   └── styles.css
-│
-├── screenshots/             # Project screenshots (for README)
-│
-├── .github/workflows/       # GitHub Actions CI/CD pipeline
-│   └── s3-deploy.yml
-│
-├── .gitignore
-├── README.md
-└── desktop.ini
-```
+🎯 Project Purpose
+Hands-on AWS experience
 
----
+Real-world example for my cloud engineering portfolio
 
-## 🛠️ Step-by-Step Deployment
+Demonstrates secure, scalable website hosting
 
-### Manual Deployment
+Builds toward my goal of becoming a professional in cloud infrastructure
 
-1. **Create an S3 Bucket**  
-   - Enable static website hosting  
-   - Upload your website files  
-
-2. **Configure CloudFront**  
-   - Set your S3 bucket as the origin  
-   - Enable HTTPS (Recommended)  
-
-3. **Access your Website**  
-   - Use the CloudFront domain  
-   - Or your custom domain if configured  
-
----
-
-### Automated Deployment with Terraform
-
-**Prerequisite:** AWS CLI configured with valid credentials  
-
-```bash
-cd Infrastructure
-terraform init
-terraform plan
-terraform apply
-```
-
-Terraform provisions:
-
-✅ S3 Bucket with static website hosting  
-✅ CloudFront Distribution with HTTPS  
-✅ Optional Route 53 DNS records  
-
----
-
-### CI/CD with GitHub Actions
-
-When configured, GitHub Actions will:
-
-- Auto-sync website files to S3 on push to `main`  
-- Invalidate CloudFront cache to reflect updates  
-- Run Terraform Plan & Apply (if configured)  
-
----
-
-## 🌐 Live Demo
-
-> [Insert your CloudFront URL or Custom Domain here]  
-> Example: `https://d123abc456.cloudfront.net`  
-
----
-
-## 📸 Screenshots
-
-*Recommended screenshots to include:*  
-
-- S3 Static Website configuration screen  
-- CloudFront Distribution dashboard  
-- Website live in browser  
-- Terraform Apply output  
-- GitHub Actions workflow successful run  
-
----
-
-## 🛡️ Security Best Practices
-
-✔️ Block public access to S3 — only CloudFront serves content  
-✔️ Enable HTTPS via CloudFront  
-✔️ Use S3 Bucket Policies for access control  
-✔️ IAM permissions follow least-privilege principle  
-
----
-
-## 🎯 Why This Project Matters
-
-Deploying a static site with S3, CloudFront, Terraform, and CI/CD demonstrates core cloud skills:
-
-✅ Infrastructure as Code with Terraform  
-✅ Real-world AWS architecture for scalable hosting  
-✅ Security-first design  
-✅ Automation with CI/CD (when implemented)  
-
-This project reflects practical, job-ready experience in cloud infrastructure — highly desirable for DevOps and Cloud Engineer roles.
-
----
-
-## 🙌 Credits
-
-Built and maintained by **Tommy813-lab** as part of my Cloud Infrastructure & DevOps learning journey.  
-[GitHub Profile](https://github.com/Tommy813-lab)  
