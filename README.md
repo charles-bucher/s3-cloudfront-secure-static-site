@@ -1,55 +1,62 @@
-🌐 Static Website Architecture: S3 + CloudFront
+🌐 Static Website Hosting with Amazon S3 + CloudFront
 Built & Documented by Charles — Aspiring Cloud Engineer
+
 🧠 Overview
-This project shows how I set up a secure, fast, and globally available static website using Amazon S3 and CloudFront.
+This project demonstrates how to build and deploy a secure, high-performance static website using Amazon S3 and CloudFront, following AWS best practices.
 
-The Setup:
+Great for: portfolios, landing pages, and lightweight websites.
 
-Static files like HTML, CSS, JS live in an S3 bucket
+⚙️ Architecture Summary
+Component	Purpose
+🪣 S3 Bucket	Stores HTML, CSS, JS, images
+🌍 CloudFront	Global content delivery network (CDN)
+🔐 Origin Access Control (OAC)	Ensures only CloudFront can access S3 bucket
+✅ HTTPS	Enforces encrypted traffic from edge to user
 
-CloudFront delivers the content worldwide for speed and reliability
+🖼️ Architecture Diagram
+plaintext
+Copy code
+  +--------------------+          +--------------------+
+  |                    |          |                    |
+  |    End Users       | <------> |   CloudFront CDN   |
+  | (Global Visitors)  | HTTPS    | (Edge Locations)   |
+  |                    |          |                    |
+  +--------------------+          +---------+----------+
+                                            |
+                                            | Origin Access Control (OAC)
+                                            |
+                                   +--------v---------+
+                                   |                  |
+                                   |   Private S3     |
+                                   |   Bucket         |
+                                   | (Static Website) |
+                                   +------------------+
+Diagram Explanation:
 
-Origin Access Control (OAC) keeps the S3 bucket private — only CloudFront can access it
+Users connect securely via HTTPS to CloudFront’s edge locations worldwide.
 
-This type of architecture is common for portfolios, product pages, landing pages, or lightweight websites that need high performance and solid security.
+CloudFront fetches static content ONLY from your private S3 bucket via Origin Access Control (OAC), keeping your bucket locked down from direct internet access.
 
-⚙️ How It Works
-1. 🪣 Amazon S3 — Static File Storage
-Hosts static files: index.html, CSS, JS, images
+🔧 How It Works
+Amazon S3
+Hosts static files with static website hosting enabled
 
-Static Website Hosting enabled for clean routing
+Public access blocked to keep files secure
 
-Public Access BLOCKED — bucket isn’t exposed directly to the internet
+Files deployed automatically with GitHub Actions
 
-Only CloudFront can fetch content from the bucket
+Amazon CloudFront
+Distributes content globally for low latency
 
-2. 🌍 Amazon CloudFront — Global Content Delivery
-Speeds up delivery using edge locations around the world
+Enforces HTTPS for security
 
-Handles HTTPS, providing secure connections for users
+Uses OAC so only CloudFront can read S3 files
 
-Uses Origin Access Control (OAC) so only CloudFront can access private S3 content
-
-Supports custom domain names and SSL certificates for branded, secure websites
+Supports custom domain names (optional)
 
 🔐 Security Highlights
-✅ S3 bucket kept private — no direct public access
-✅ Only CloudFront allowed to access the S3 bucket via OAC
-✅ HTTPS enforced for secure traffic
-✅ Bucket policies and CloudFront settings work together for extra protection
+S3 bucket access limited strictly to CloudFront via OAC
 
-🏁 Recap
-Feature	What’s Happening
-Storage	Amazon S3 (Static Website Hosting)
-Delivery	CloudFront (Global CDN)
-Security	OAC + HTTPS enforced
+HTTPS enforced at CloudFront edge locations
 
-🎯 Project Purpose
-Hands-on AWS experience
-
-Real-world example for my cloud engineering portfolio
-
-Demonstrates secure, scalable website hosting
-
-Builds toward my goal of becoming a professional in cloud infrastructure
-
+Bucket policies and CloudFront settings combined for strong protection
