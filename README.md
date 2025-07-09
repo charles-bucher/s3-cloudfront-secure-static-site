@@ -1,46 +1,140 @@
-🌐 Static Website Hosting with Amazon S3 + CloudFront
-Designed & Documented by Charles — Your Friendly Aspiring Cloud Engineer
+📦 Secure Static Website with S3 + CloudFront + SSL
+Deploy blazing-fast, globally distributed static websites with AWS S3, CloudFront, and HTTPS. Lock it down tight with security-first policies and custom domain support.
 
-🧠 Scenario: Why This Project?
-Imagine you’re launching your personal portfolio site — you want it blazing fast no matter where your visitors are in the world. But you’re also serious about security: your S3 bucket should be locked down tight, only letting trusted services peek inside. Plus, every update should be smooth and automated — no painful clicking around the AWS console.
 
-This project shows you how to build exactly that — a secure, lightning-fast static website hosted on S3 and delivered globally via CloudFront — following AWS best practices. Perfect for portfolios, landing pages, or any lightweight site you want to scale with confidence.
+🔥 Real-World Scenario: Charles' Portfolio Launch
+You're Charles, a Cloud Support Engineer launching a sleek, secure personal portfolio. You want:
 
-⚙️ Architecture Summary
-Component	What It Does
-🪣 S3 Bucket	Holds your static website files (HTML, CSS, JS, images) — fully private
-🌍 CloudFront CDN	Delivers your site fast from edge locations all over the globe
-🔐 Origin Access Control (OAC)	Locks down the S3 bucket so only CloudFront can read the files
-✅ HTTPS	Ensures all traffic is encrypted between visitors and CloudFront
+⚡ Global delivery with low latency
 
-🖼️ Architecture Diagram (Mermaid)
-mermaid
-Copy code
-flowchart LR
-    Visitors[🌎 End Users] <-->|HTTPS| CloudFront[🚀 CloudFront CDN]
-    CloudFront -->|Origin Access Control (OAC)| S3[🔒 Private S3 Bucket (Static Site Files)]
-🔧 How It Works
-1. Amazon S3
-Hosts your entire static site with website hosting enabled
+🔐 HTTPS-only access (no sketchy redirects)
 
-Bucket blocks all public internet access — nobody can bypass CloudFront
+☁️ Static hosting at near-zero cost
 
-You upload or automate deployment of your site files (HTML, CSS, images) to S3
+🚫 S3 locked down—no public access
 
-2. Amazon CloudFront
-Speeds up delivery by caching your content at AWS edge locations worldwide
+🧠 A real-world setup that impresses recruiters and hiring managers
 
-Forces HTTPS connections for security and trust
+This repo walks through that setup with production-level quality.
 
-Uses Origin Access Control (OAC) to securely fetch content from your private S3 bucket
+⚙️ Architecture Overview
+🔹 Key AWS Services:
+Service	Purpose
+S3	Static file hosting (HTML, CSS, JS, assets)
+CloudFront	CDN to cache and distribute globally
+ACM	Free HTTPS certificates via AWS
+Route 53	(Optional) Domain name routing
+IAM	Secure permissions & roles
 
-Supports custom domains and SSL certificates if you want your own branded URL
+📊 Diagram Overview
+scss
+Copy
+Edit
+User → CloudFront (HTTPS) → S3 (Private Bucket)
+               ↓
+         [ACM Certificate]
+               ↓
+     [Route 53 DNS Routing]
+All requests go through CloudFront. S3 is private and only accessible via a signed origin.
 
-🔐 Security Highlights
-No public access to your S3 bucket — it’s locked down tight
+🚀 Deployment Guide
+✅ Step-by-Step
+S3: Create Bucket
 
-Only CloudFront can read from your S3 bucket via OAC, so your origin stays invisible
+Disable public access
 
-End-to-end HTTPS encryption protects your visitors and your content
+Enable static site hosting
 
-Bucket policies and CloudFront settings work hand-in-hand for multi-layer security
+Upload your files
+
+Bucket Policy
+
+json
+Copy
+Edit
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowCloudFrontOnly",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::your-bucket-name/*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:SourceArn": "arn:aws:cloudfront::<your-cloudfront-distribution-id>"
+        }
+      }
+    }
+  ]
+}
+ACM: Create SSL Cert
+
+Request a public cert (e.g., www.charlescloud.dev)
+
+Validate via Route 53 or your DNS provider
+
+CloudFront
+
+Create distribution with S3 as origin
+
+Use OAC (Origin Access Control) to restrict access
+
+Attach ACM cert for HTTPS
+
+Route 53 (Optional)
+
+Create A/AAAA records pointing to CloudFront
+
+Test
+
+Visit your domain with HTTPS
+
+Block direct S3 URL access (403 expected)
+
+📁 File Tree Example
+bash
+Copy
+Edit
+.
+├── site/                        # Your static website files
+│   ├── index.html
+│   └── style.css
+├── policies/                    # JSON bucket & IAM policies
+├── cloudformation/             # Infra-as-Code (optional)
+├── architecture-diagram.png    # Visual architecture
+└── README.md
+🔐 Security Checklist
+✅ S3 Bucket Block Public Access
+✅ CloudFront-only access to S3
+✅ HTTPS enforced end-to-end
+✅ No open permissions or wildcards
+✅ IAM policies scoped to least privilege
+
+💰 Cost Estimate (Low-Traffic Personal Site)
+Service	Monthly Cost Estimate
+S3	~$0.50 (storage & requests)
+CloudFront	~$1.00 (first 1 TB free tier)
+ACM	Free
+Route 53	$0.50 per hosted zone
+
+🧠 Skills You’ll Demonstrate
+Static website hosting on AWS
+
+CDN caching via CloudFront
+
+DNS and SSL integration
+
+IAM & S3 bucket policy mastery
+
+Real-world secure architecture
+
+🧑‍💻 About Me
+Charles – Cloud Support Enthusiast building secure, scalable AWS solutions.
+This project is part of my cloud engineering portfolio demonstrating best practices in infrastructure and cloud delivery.
+
+📚 Related Repos
+aws-ec2-s3-cloudwatch-infra — EC2 Monitoring & Logging
+
+aws-monitoring-support-lab — CloudWatch + SNS Proactive Alerts
