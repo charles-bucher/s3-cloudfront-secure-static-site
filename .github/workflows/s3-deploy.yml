@@ -28,6 +28,6 @@ jobs:
 
       - name: Invalidate CloudFront Cache
         run: |
-          DISTRIBUTION_ID=YOUR_CLOUDFRONT_DISTRIBUTION_ID
+          DISTRIBUTION_ID=${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
           echo "Creating CloudFront invalidation for distribution $DISTRIBUTION_ID"
-          aws cloudfront create-invalidation -
+          aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
