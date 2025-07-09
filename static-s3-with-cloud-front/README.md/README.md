@@ -1,74 +1,107 @@
-Static Website Deployment with AWS S3 and CloudFront
-Overview
-This project demonstrates how to deploy a static website using Amazon S3 for storage and CloudFront for global content delivery. It focuses on building a simple, reliable, and cost-effective solution for serving static web content with improved performance and scalability.
+🌐 Static Website Deployment with AWS S3 and CloudFront
+This project demonstrates how to deploy a static website using Amazon S3 for storage and CloudFront for global content delivery. The goal is to build a simple, reliable, and cost-effective solution for serving static web content with enhanced performance and scalability.
 
-Features
-Static website hosting with Amazon S3
+🖼️ Architecture Diagram (ASCII Style)
+sql
+Copy code
+               +--------------------+
+               |   GitHub Repo      |
+               | (HTML, CSS, JS)    |
+               +--------+-----------+
+                        |
+                        | Push
+                        v
+               +--------+-----------+
+               |   GitHub Actions   |
+               |  (CI/CD Workflow)  |
+               +--------+-----------+
+                        |
+               +--------v-----------+
+               |     Amazon S3      |
+               | (Static Website)   |
+               +--------+-----------+
+                        |
+                        v
+               +--------+-----------+
+               |   AWS CloudFront   |
+               | (Global CDN + SSL) |
+               +--------+-----------+
+                        |
+                        v
+               +--------+-----------+
+               |    End Users       |
+               | (Fast, Secure Web) |
+               +--------------------+
+🖼️ Optional: Use a Visual Diagram (PNG/SVG)
+You can also use a clean visual diagram if you're sharing this on GitHub Pages or internally:
 
-Global content delivery with AWS CloudFront
+📷 Add this image to your repo, for example /docs/architecture.png, and embed like this:
 
-Infrastructure as Code using Terraform
+markdown
+Copy code
+![Static Site Architecture](docs/architecture.png)
+Or hotlink to one hosted externally (just make sure it's always available).
 
-Automatic provisioning of S3 bucket and CloudFront distribution
+🚀 Features
+✅ Static website hosting on Amazon S3
+✅ Global content delivery via AWS CloudFront
+✅ Fast, secure, and scalable setup
+✅ Manual or automated deployment using GitHub Actions
+✅ Publicly accessible static content with HTTPS support
 
-Secure, scalable, and maintainable setup
+🧰 Technologies Used
+Amazon S3 – Static file storage (HTML, CSS, JS)
 
-Technologies Used
-AWS S3 — Static website storage
+AWS CloudFront – CDN for fast, secure global delivery
 
-AWS CloudFront — Content Delivery Network (CDN)
+AWS CLI – For resource management
 
-Terraform — Infrastructure provisioning
+GitHub Actions – Automates deployment & cache invalidation
 
-AWS CLI — Optional, for interacting with AWS resources
-
-Setup and Deployment
-Prerequisites
-AWS account with necessary permissions
+⚙️ Setup and Deployment
+✅ Prerequisites
+AWS account + permissions
 
 AWS CLI installed and configured
 
-Terraform installed
+GitHub repo (for CI/CD optional)
 
-Steps
-Clone the repository
+S3 bucket & CloudFront distribution set up
 
+📦 Steps
+1. Upload Static Website to S3
 bash
 Copy code
-git clone https://github.com/Tommy813-lab/static-s3-with-cloud-front.git
-cd static-s3-with-cloud-front
-Initialize and apply Terraform
+aws s3 sync ./static-site s3://your-s3-bucket-name --delete
+Make sure static hosting is enabled and the bucket allows public read access.
 
+2. Invalidate CloudFront Cache (optional)
 bash
 Copy code
-terraform init
-terraform apply
-Upload your website files to S3
-After the resources are created, upload your static website files (index.html, CSS, images, etc.) to the S3 bucket provisioned by Terraform. This can be done through the AWS Console or with the AWS CLI.
+aws cloudfront create-invalidation \
+  --distribution-id YOUR_CLOUDFRONT_DIST_ID \
+  --paths "/*"
+3. Access Your Website
+S3 URL:
+http://your-bucket-name.s3-website-region.amazonaws.com
 
-Access your website
-Once your files are uploaded:
+CloudFront URL (Recommended):
+https://your-distribution-id.cloudfront.net
 
-Via the S3 static website endpoint:
-http://<your-bucket-name>.s3-website-<region>.amazonaws.com
-
-Or via the CloudFront distribution domain provided in the Terraform output for better performance and HTTPS support.
-
-Example Project Structure
+🗂️ Project Structure
 bash
 Copy code
-/terraform         # Terraform configuration files
-/static-site       # Example static website files (index.html, etc.)
-README.md          # Project documentation
-Notes
-Ensure your S3 bucket has public read access for static site files.
+/static-site         # Your static website files (HTML, CSS, JS)
+/.github/workflows   # GitHub Actions deployment workflow
+README.md            # This documentation
+🔐 Notes
+S3 bucket must allow public read access (or use signed URLs)
 
-CloudFront cache may need to be invalidated after content updates.
+CloudFront enables HTTPS by default
 
-Bucket versioning and encryption are enabled for added security and durability.
+GitHub Actions automates syncing + invalidation on push
 
-Contact
+📫 Contact
 Charles B
 📧 buchercharles2@gmail.com
-💻 GitHub - Tommy813-lab
-
+💻 GitHub: Tommy813-labs
