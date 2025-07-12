@@ -3,68 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tommy's Cloud Resume</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet" />
+  <title>Tommy's Secure Static Site</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
-      font-family: 'Fira Sans', sans-serif;
-      background: #f2f7fb;
-      color: #222;
+      font-family: 'Inter', sans-serif;
+      background: #f9fafb;
+      color: #1e293b;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-      padding: 60px 20px;
+      min-height: 100vh;
     }
-
     h1 {
-      color: #007acc;
-      font-size: 2.5em;
-      margin-bottom: 10px;
+      font-weight: 700;
+      font-size: 2.75rem;
+      color: #2563eb;
+      margin-bottom: 0.5em;
     }
-
-    p {
-      font-size: 1.2em;
-      color: #555;
-      margin-bottom: 40px;
+    p.lead {
+      font-weight: 500;
+      font-size: 1.25rem;
+      max-width: 650px;
+      margin-bottom: 2em;
+      color: #475569;
     }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      max-width: 400px;
-      margin: 0 auto;
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+      justify-content: center;
+      max-width: 800px;
+      margin-bottom: 3rem;
     }
-
-    li {
-      background: #fff;
-      margin: 12px 0;
-      padding: 15px;
-      border-left: 6px solid #007acc;
-      border-radius: 5px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      font-size: 1em;
+    .feature {
+      background: white;
+      box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+      padding: 20px 25px;
+      border-radius: 12px;
+      flex: 1 1 250px;
+      min-width: 250px;
+      font-weight: 600;
+      color: #334155;
+      transition: box-shadow 0.3s ease;
     }
-
+    .feature:hover {
+      box-shadow: 0 6px 14px rgb(37 99 235 / 0.4);
+    }
+    .btn-group a {
+      text-decoration: none;
+      font-weight: 600;
+      background: #2563eb;
+      color: white;
+      padding: 12px 28px;
+      margin: 0 10px;
+      border-radius: 6px;
+      box-shadow: 0 5px 15px rgb(37 99 235 / 0.4);
+      transition: background-color 0.3s ease;
+      display: inline-block;
+    }
+    .btn-group a:hover {
+      background: #1e40af;
+    }
     footer {
-      margin-top: 50px;
-      color: #888;
-      font-size: 0.9em;
+      margin-top: auto;
+      font-size: 0.85rem;
+      color: #64748b;
     }
   </style>
 </head>
 <body>
+  <h1>Tommy’s Secure Static Site</h1>
+  <p class="lead">
+    Lightning-fast, globally distributed static website powered by AWS S3 and CloudFront, secured with HTTPS and locked down tight with IAM policies.
+  </p>
 
-  <h1>👋 Hey there, I'm Charles</h1>
-  <p>This is my first AWS static site — hosted on S3 and delivered via CloudFront. 💨</p>
+  <div class="features">
+    <div class="feature">🔐 S3 Bucket with Public Access Blocked</div>
+    <div class="feature">⚡ CloudFront CDN for Low Latency Worldwide</div>
+    <div class="feature">🛡️ HTTPS with ACM SSL Certificate</div>
+    <div class="feature">🔑 IAM Policies Scoped to Least Privilege</div>
+    <div class="feature">🛠️ Infrastructure-as-Code Ready (Terraform/CloudFormation)</div>
+  </div>
 
-  <ul>
-    <li>🚀 Aspiring Cloud Engineer on the rise</li>
-    <li>🧠 Learning AWS, one service at a time</li>
-    <li>🛠️ Hands-on with S3, CloudFront, GitHub Actions</li>
-    <li>📈 Building a real cloud resume, from scratch</li>
-  </ul>
+  <div class="btn-group">
+    <a href="https://github.com/Tommy813-lab/s3-cloudfront-secure-static-site" target="_blank" rel="noopener">View Repo</a>
+    <a href="https://d123example.cloudfront.net" target="_blank" rel="noopener">Live Demo</a>
+  </div>
 
   <footer>
-    Built with 💻 + ☁️ by Tommy813 &mdash; Est. 2025
+    Built with ☁️ + 💻 by Tommy — Est. 2025
   </footer>
-
 </body>
 </html>
