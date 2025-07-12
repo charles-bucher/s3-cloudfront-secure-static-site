@@ -1,8 +1,17 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const message = "Welcome to Tommy's Cloud Resume Site!";
-    console.log(message);
+document.addEventListener("DOMContentLoaded", () => {
+  const message = "Welcome to Tommy's Secure Static Site!";
+  console.log(message);
 
-    // Optional - Example interaction
-    const heading = document.querySelector("h1");
-    heading.style.color = "blue";
+  // Change the main heading color to your signature blue
+  const heading = document.querySelector("h1");
+  if (heading) {
+    heading.style.color = "#2563eb"; // Tailwind's blue-600 hex
+  }
+
+  // Bonus: add a subtle fade-in effect to the page content
+  document.body.style.opacity = 0;
+  document.body.style.transition = "opacity 1s ease-in";
+  requestAnimationFrame(() => {
+    document.body.style.opacity = 1;
+  });
 });
