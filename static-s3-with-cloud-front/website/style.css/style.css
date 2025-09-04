@@ -1,8 +1,0 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const message = "Welcome to Tommy's Cloud Resume Site!";
-    console.log(message);
-
-    // Optional - Example interaction
-    const heading = document.querySelector("h1");
-    heading.style.color = "blue";
-});

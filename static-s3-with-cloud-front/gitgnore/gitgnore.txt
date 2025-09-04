@@ -1,4 +1,0 @@
-# Ignore system files
-Thumbs.db
-Desktop.ini
-AppData/
