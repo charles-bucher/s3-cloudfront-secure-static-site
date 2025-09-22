@@ -1,140 +1,123 @@
-📦 Secure Static Website with S3 + CloudFront + SSL
-Deploy blazing-fast, globally distributed static websites with AWS S3, CloudFront, and HTTPS. Lock it down tight with security-first policies and custom domain support.
+# Secure Static Site on AWS S3 + CloudFront
 
+![AWS Certified](https://img.shields.io/badge/AWS-Certified-brightgreen)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-Configured-blue)
+![Last Updated](https://img.shields.io/badge/Last%20Updated-2025--09--22-orange)
 
-🔥 Real-World Scenario: Charles' Portfolio Launch
-You're Charles, a Cloud Support Engineer launching a sleek, secure personal portfolio. You want:
+---
 
-⚡ Global delivery with low latency
+## 📌 Project Purpose & Use Case
+This project demonstrates a **secure, scalable, and highly available hosting solution for static websites** using AWS S3 and CloudFront. It is designed for scenarios where static content must be served globally, with **HTTPS enforced** and **strict security controls** in place.
 
-🔐 HTTPS-only access (no sketchy redirects)
+**Use Cases:**
+- Hosting marketing landing pages
+- Serving static assets for web applications
+- Learning IaC (Infrastructure as Code) and AWS security best practices
 
-☁️ Static hosting at near-zero cost
+---
 
-🚫 S3 locked down—no public access
+## 🏗 Architecture Overview
 
-🧠 A real-world setup that impresses recruiters and hiring managers
+![Architecture Diagram](./architecture-diagram.png)
 
-This repo walks through that setup with production-level quality.
+**Key Components:**
+- **S3 Bucket**: Stores static site files with **public access blocked**
+- **CloudFront Distribution**: Only accesses S3 via **Origin Access Control (OAC)**, enforces HTTPS
+- **IAM Policies**: Least-privilege access to deploy static content
+- **Optional:** Terraform module for S3 + CloudFront provisioning (coming soon)
 
-⚙️ Architecture Overview
-🔹 Key AWS Services:
-Service	Purpose
-S3	Static file hosting (HTML, CSS, JS, assets)
-CloudFront	CDN to cache and distribute globally
-ACM	Free HTTPS certificates via AWS
-Route 53	(Optional) Domain name routing
-IAM	Secure permissions & roles
+---
 
-📊 Diagram Overview
-scss
-Copy
-Edit
-User → CloudFront (HTTPS) → S3 (Private Bucket)
-               ↓
-         [ACM Certificate]
-               ↓
-     [Route 53 DNS Routing]
-All requests go through CloudFront. S3 is private and only accessible via a signed origin.
+## ⚙️ Deployment Guide (Step-by-Step)
 
-🚀 Deployment Guide
-✅ Step-by-Step
-S3: Create Bucket
+1. **Prepare your AWS account**  
+   Ensure you have proper IAM permissions to create S3 buckets, CloudFront distributions, and ACM certificates.
 
-Disable public access
-
-Enable static site hosting
-
-Upload your files
-
-Bucket Policy
+2. **Upload static site files**  
+   ```bash
+   aws s3 sync ./site s3://your-bucket-name --delete
+Configure S3 bucket policy
+Use the provided bucket-policy.json to restrict public access and allow CloudFront only:
 
 json
-Copy
-Edit
+Copy code
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "AllowCloudFrontOnly",
-      "Effect": "Deny",
-      "Principal": "*",
-      "Action": "s3:GetObject",
-      "Resource": "arn:aws:s3:::your-bucket-name/*",
-      "Condition": {
-        "StringNotEquals": {
-          "aws:SourceArn": "arn:aws:cloudfront::<your-cloudfront-distribution-id>"
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "cloudfront.amazonaws.com"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::your-bucket-name/*"
         }
-      }
-    }
-  ]
+    ]
 }
-ACM: Create SSL Cert
+Configure CloudFront
 
-Request a public cert (e.g., www.charlescloud.dev)
+Enable OAC to access S3
 
-Validate via Route 53 or your DNS provider
+Enforce HTTPS-only traffic
 
-CloudFront
+Enable default caching and compression
 
-Create distribution with S3 as origin
+Deploy
+Once the bucket policy and CloudFront distribution are in place, the site is live at the CloudFront URL.
 
-Use OAC (Origin Access Control) to restrict access
+🔒 Security Best Practices Implemented
+ S3 public access blocked
 
-Attach ACM cert for HTTPS
+ CloudFront-only access via Origin Access Control (OAC)
 
-Route 53 (Optional)
+ HTTPS enforced via ACM certificate
 
-Create A/AAAA records pointing to CloudFront
+ IAM policies scoped to least privilege
 
-Test
+ Automated security checks (e.g., tfsec, checkov)
 
-Visit your domain with HTTPS
+🗂 Code & Configuration
+ Static site files: index.html, style.css
 
-Block direct S3 URL access (403 expected)
+ Bucket policy JSON
 
-📁 File Tree Example
-bash
-Copy
-Edit
-.
-├── site/                        # Your static website files
-│   ├── index.html
-│   └── style.css
-├── policies/                    # JSON bucket & IAM policies
-├── cloudformation/             # Infra-as-Code (optional)
-├── architecture-diagram.png    # Visual architecture
-└── README.md
-🔐 Security Checklist
-✅ S3 Bucket Block Public Access
-✅ CloudFront-only access to S3
-✅ HTTPS enforced end-to-end
-✅ No open permissions or wildcards
-✅ IAM policies scoped to least privilege
+ CloudFront configuration notes
 
-💰 Cost Estimate (Low-Traffic Personal Site)
-Service	Monthly Cost Estimate
-S3	~$0.50 (storage & requests)
-CloudFront	~$1.00 (first 1 TB free tier)
-ACM	Free
-Route 53	$0.50 per hosted zone
+ Terraform or CloudFormation templates (coming soon)
 
-🧠 Skills You’ll Demonstrate
-Static website hosting on AWS
+ Modular structure for reuse (modules/cloudfront, modules/s3)
 
-CDN caching via CloudFront
+ CI/CD pipeline (GitHub Actions or shell script)
 
-DNS and SSL integration
+📊 Visuals
+ Architecture diagram
 
-IAM & S3 bucket policy mastery
+ Annotated diagram with traffic flow
 
-Real-world secure architecture
+ Screenshots of deployed site or AWS console
 
-🧑‍💻 About Me
-Charles – Cloud Support Enthusiast building secure, scalable AWS solutions.
-This project is part of my cloud engineering portfolio demonstrating best practices in infrastructure and cloud delivery.
+🚀 Live Demo
+Pending deployment
 
-📚 Related Repos
-aws-ec2-s3-cloudwatch-infra — EC2 Monitoring & Logging
+💼 Recruiter Appeal
+ Pinned project on GitHub profile
 
-aws-monitoring-support-lab — CloudWatch + SNS Proactive Alerts
+ Linked in your GitHub Pages portfolio
+
+ README intro tailored to hiring managers:
+
+"This project demonstrates secure, scalable AWS hosting for static sites using IaC and CDN optimization."
+
+🔧 Suggested Additions
+Terraform Module: Even a basic one for S3 + CloudFront + ACM will show off IaC chops.
+
+CI/CD: Simple GitHub Actions workflow to sync site folder to S3 on push.
+
+README Polish: Add badges, visuals, and a “Why this matters” section for recruiters.
+
+Live Demo URL: Deploy CloudFront distribution and show screenshot or link.
+
+
+
+
+
