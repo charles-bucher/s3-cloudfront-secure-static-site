@@ -1,4 +1,4 @@
-# Secure Static Site on AWS S3 + CloudFront
+# 🔐 Secure Static Site on AWS S3 + CloudFront
 
 ![AWS Certified](https://img.shields.io/badge/AWS-Certified-brightgreen)
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-Configured-blue)
@@ -7,12 +7,12 @@
 ---
 
 ## 📌 Project Purpose & Use Case
-This project demonstrates a **secure, scalable, and highly available hosting solution for static websites** using AWS S3 and CloudFront. It is designed for scenarios where static content must be served globally, with **HTTPS enforced** and **strict security controls** in place.
+This project demonstrates **secure, scalable static website hosting** on AWS using **S3 and CloudFront**, with enterprise-level security controls.  
 
-**Use Cases:**
-- Hosting marketing landing pages
-- Serving static assets for web applications
-- Learning IaC (Infrastructure as Code) and AWS security best practices
+**Use Cases:**  
+- Hosting portfolio or marketing landing pages  
+- Serving global static content with low latency  
+- Learning IaC, AWS security best practices, and CDN optimization  
 
 ---
 
@@ -20,24 +20,24 @@ This project demonstrates a **secure, scalable, and highly available hosting sol
 
 ![Architecture Diagram](./architecture-diagram.png)
 
-**Key Components:**
-- **S3 Bucket**: Stores static site files with **public access blocked**
-- **CloudFront Distribution**: Only accesses S3 via **Origin Access Control (OAC)**, enforces HTTPS
-- **IAM Policies**: Least-privilege access to deploy static content
-- **Optional:** Terraform module for S3 + CloudFront provisioning (coming soon)
+**Components:**  
+- **S3 Bucket**: Stores static site files, **public access blocked**  
+- **CloudFront Distribution**: Accesses S3 via **Origin Access Control (OAC)**, enforces HTTPS  
+- **IAM Policies**: Least-privilege access to deploy content  
+- **Terraform Module**: Placeholder for automated deployment (coming soon)  
 
 ---
 
-## ⚙️ Deployment Guide (Step-by-Step)
+## ⚙️ Deployment Guide
 
-1. **Prepare your AWS account**  
-   Ensure you have proper IAM permissions to create S3 buckets, CloudFront distributions, and ACM certificates.
+1. **Prepare AWS account**  
+   Ensure you have IAM permissions for S3, CloudFront, and ACM certificates.
 
 2. **Upload static site files**  
    ```bash
    aws s3 sync ./site s3://your-bucket-name --delete
-Configure S3 bucket policy
-Use the provided bucket-policy.json to restrict public access and allow CloudFront only:
+Set S3 bucket policy
+Restrict public access and allow CloudFront only:
 
 json
 Copy code
@@ -60,12 +60,12 @@ Enable OAC to access S3
 
 Enforce HTTPS-only traffic
 
-Enable default caching and compression
+Enable caching and compression
 
-Deploy
-Once the bucket policy and CloudFront distribution are in place, the site is live at the CloudFront URL.
+Deploy & Verify
+Once configured, your site is live at the CloudFront URL.
 
-🔒 Security Best Practices Implemented
+🔒 Security Best Practices
  S3 public access blocked
 
  CloudFront-only access via Origin Access Control (OAC)
@@ -74,50 +74,38 @@ Once the bucket policy and CloudFront distribution are in place, the site is liv
 
  IAM policies scoped to least privilege
 
- Automated security checks (e.g., tfsec, checkov)
+ Automated security checks (tfsec, checkov)
 
 🗂 Code & Configuration
- Static site files: index.html, style.css
+ Static site files (index.html, style.css)
 
  Bucket policy JSON
 
  CloudFront configuration notes
 
- Terraform or CloudFormation templates (coming soon)
+ Terraform or CloudFormation templates (placeholder)
 
  Modular structure for reuse (modules/cloudfront, modules/s3)
 
- CI/CD pipeline (GitHub Actions or shell script)
+ CI/CD pipeline (GitHub Actions placeholder)
 
-📊 Visuals
- Architecture diagram
-
- Annotated diagram with traffic flow
-
- Screenshots of deployed site or AWS console
-
-🚀 Live Demo
-Pending deployment
+🌐 Live Demo
+Pending deployment — will update with CloudFront URL or GitHub Pages link
 
 💼 Recruiter Appeal
  Pinned project on GitHub profile
 
- Linked in your GitHub Pages portfolio
+ Linked in GitHub Pages portfolio
 
  README intro tailored to hiring managers:
 
-"This project demonstrates secure, scalable AWS hosting for static sites using IaC and CDN optimization."
+“This project demonstrates secure, scalable AWS hosting for static sites using IaC and CDN optimization.”
 
 🔧 Suggested Additions
-Terraform Module: Even a basic one for S3 + CloudFront + ACM will show off IaC chops.
+Terraform Module: Basic S3 + CloudFront + ACM automation.
 
-CI/CD: Simple GitHub Actions workflow to sync site folder to S3 on push.
+CI/CD: GitHub Actions workflow to sync site/ to S3 on push.
 
-README Polish: Add badges, visuals, and a “Why this matters” section for recruiters.
+Live Demo Screenshot: Include once deployed.
 
-Live Demo URL: Deploy CloudFront distribution and show screenshot or link.
-
-
-
-
-
+Badges & Visuals: Show AWS skills and project status.
