@@ -9,14 +9,16 @@
 ✅ IAM least privilege
 ✅ Route 53 (optional) for custom domain
 
-🌐 Use Case: Charles' Portfolio Launch
-You're Charles, a Cloud Support Engineer launching a sleek, secure personal site. You want:
-- ⚡ Global delivery with low latency
-- 🔒 HTTPS-only access (no sketchy redirects)
-- ☁️ Static hosting at near-zero cost
-- 🚫 S3 locked down — no public access
-- 🧠 Real-world setup that impresses recruiters
-This repo delivers exactly that.
+🌐 Use Case: My Portfolio Launch  
+I built this to host my own portfolio the right way — cheap, secure, and fast.  
+What I needed:  
+⚡ Global delivery with low latency  
+🔒 HTTPS-only access (no sloppy redirects)  
+☁️ Static hosting at near-zero cost  
+🚫 S3 locked down — no public access  
+🧠 Real-world setup that shows I can design production-ready infra  
+This repo makes that happen.
+
 
 🧱 Architecture Overview
 |  |  | 
