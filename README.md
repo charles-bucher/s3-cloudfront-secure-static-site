@@ -1,8 +1,7 @@
 
 🔒 S3 + CloudFront Secure Static Site
   
-  ⚡ TL;DR
-  This repo deploys a blazing-fast, globally distributed static website using Amazon S3, CloudFront, and HTTPS — with zero public S3 access. It’s cert-aligned, production-grade, and recruiter-ready. Ideal for portfolios, landing pages, or scalable static sites.
+TL;DR This repo deploys a secure, cost‑efficient static website using Amazon S3 and CloudFront with HTTPS and no public S3 access. It’s built to demonstrate a production‑ready setup and my AWS skills. Ideal for portfolios, landing pages, or scalable static sites.
 ✅ Private S3 bucket
 ✅ CloudFront CDN with HTTPS
 ✅ SSL via ACM
@@ -78,13 +77,17 @@ This repo makes that happen.
 |  |  | 
 
 
+Static site hosting on AWS (built for my portfolio)
 
-🧠 Skills Demonstrated
-- Static site hosting on AWS
-- CDN caching via CloudFront
-- SSL & DNS integration
-- IAM & S3 bucket policy mastery
-- Real-world secure architecture
+CDN caching via CloudFront for low latency
+
+SSL & DNS integration with ACM and Route 53
+
+IAM & S3 bucket policy setup for strong security
+
+Real‑world infrastructure I can point to in interviews
+
+
 
 🧭 Cert Mapping
 |  |  | 
@@ -96,7 +99,7 @@ This repo makes that happen.
 
 
 🧑‍💻 About Me
-Charles — Cloud Support Enthusiast building secure, scalable AWS solutions. This project is part of my cert-aligned portfolio showcasing real-world infrastructure and delivery.
+Im a Cloud Support Enthusiast building secure, scalable AWS solutions. This project is part of my cert-aligned portfolio showcasing real-world infrastructure and delivery.
 
 🔗 Related Repos
 - aws-ec2-s3-cloudwatch-infra — EC2 Monitoring & Logging
