@@ -22,18 +22,18 @@ resource "aws_s3_bucket_public_access_block" "block" {
 
 # CloudFront Origin Access Control (recommended over OAI)
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name      = "${local.resource_prefix}-oac"
-  description = "OAC for ${local.resource_prefix}"
-  signing_behavior = "always"
-  signing_protocol = "sigv4"
+  name                              = "${local.resource_prefix}-oac"
+  description                       = "OAC for ${local.resource_prefix}"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
   origin_access_control_origin_type = "s3"
 }
 
 # IAM role not needed: CloudFront uses the OAC to sign requests to S3; we need a bucket policy allowing CloudFront principal
 data "aws_iam_policy_document" "bucket_policy" {
   statement {
-    sid     = "AllowCloudFrontServicePrincipal"
-    effect  = "Allow"
+    sid    = "AllowCloudFrontServicePrincipal"
+    effect = "Allow"
     principals {
       type        = "AWS"
       identifiers = ["arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${aws_cloudfront_origin_access_control.oac.id}"]
@@ -53,7 +53,7 @@ resource "aws_s3_bucket_policy" "policy" {
 # ACM certificate (optionally create in us-east-1)
 # NOTE: CloudFront requires ACM cert in us-east-1. If you want Terraform to create it, run the provider with alias for us-east-1 in root module.
 resource "aws_acm_certificate" "cert" {
-  count  = var.create_acm_certificate && length(var.aliases) > 0 ? 1 : 0
+  count = var.create_acm_certificate && length(var.aliases) > 0 ? 1 : 0
 
   domain_name               = length(var.aliases) > 0 ? var.aliases[0] : var.domain_name
   subject_alternative_names = var.aliases
@@ -109,8 +109,8 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   viewer_certificate {
     # if user passed a certificate_arn, use it; otherwise use created cert if available; else use default cloudfront certificate
-    acm_certificate_arn = var.certificate_arn != "" ? var.certificate_arn : (length(aws_acm_certificate.cert) > 0 ? aws_acm_certificate.cert[0].arn : null)
-    ssl_support_method  = var.certificate_arn != "" || length(aws_acm_certificate.cert) > 0 ? "sni-only" : null
+    acm_certificate_arn      = var.certificate_arn != "" ? var.certificate_arn : (length(aws_acm_certificate.cert) > 0 ? aws_acm_certificate.cert[0].arn : null)
+    ssl_support_method       = var.certificate_arn != "" || length(aws_acm_certificate.cert) > 0 ? "sni-only" : null
     minimum_protocol_version = "TLSv1.2_2021"
   }
 
