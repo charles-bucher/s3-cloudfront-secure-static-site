@@ -104,3 +104,7 @@ Im a Cloud Support Enthusiast building secure, scalable AWS solutions. This proj
 🔗 Related Repos
 - aws-ec2-s3-cloudwatch-infra — EC2 Monitoring & Logging
 - aws-monitoring-support-lab — CloudWatch + SNS Proactive Alerts
+
+## ?? Repo Hygiene Summary
+- Cleaned artifacts and renamed files for recruiter polish.
+
