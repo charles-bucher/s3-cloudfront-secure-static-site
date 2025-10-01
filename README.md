@@ -1,15 +1,24 @@
 ## TL;DR
-This repo demonstrates...
+A production-style **secure static website** hosted on **Amazon S3** and distributed via **CloudFront** with HTTPS and custom domain support.  
+Infrastructure is provisioned with **Terraform**, following security best practices like least-privilege IAM and bucket policies.  
 
+**Tech Stack:** Terraform · AWS S3 · CloudFront · ACM (SSL) · IAM  
+**Skills Demonstrated:** Infrastructure as Code (IaC), Cloud security, CDN optimization, cost awareness, and scalable static web hosting  
 
-🔒 S3 + CloudFront Secure Static Site
-  
-TL;DR This repo deploys a secure, cost‑efficient static website using Amazon S3 and CloudFront with HTTPS and no public S3 access. It’s built to demonstrate a production‑ready setup and my AWS skills. Ideal for portfolios, landing pages, or scalable static sites.
-✅ Private S3 bucket
-✅ CloudFront CDN with HTTPS
-✅ SSL via ACM
-✅ IAM least privilege
-✅ Route 53 (optional) for custom domain
+---
+
+## Features
+- **Secure Hosting:** S3 bucket configured for static website hosting with private access only through CloudFront.  
+- **Global Distribution:** CloudFront CDN delivers cached content with low latency worldwide.  
+- **TLS/HTTPS:** Enforced HTTPS using AWS Certificate Manager.  
+- **IAM Best Practices:** Least-privilege roles and policies defined in Terraform.  
+- **IaC Workflow:** Modular Terraform configuration for repeatable deployments.  
+
+## Cost Considerations
+- S3 and CloudFront both offer free tiers, but usage beyond ~50GB/month or many requests can incur charges.  
+- TLS certificates from ACM are free.  
+- Always review and destroy resources after testing to avoid unnecessary costs.
+
 
 🌐 Use Case: My Portfolio Launch  
 I built this to host my own portfolio the right way — cheap, secure, and fast.  
