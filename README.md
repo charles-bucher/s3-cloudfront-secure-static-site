@@ -111,7 +111,7 @@ Real‑world infrastructure I can point to in interviews
 
 
 🧑‍💻 About Me
-Im a Cloud Support Enthusiast building secure, scalable AWS solutions. This project is part of my cert-aligned portfolio showcasing real-world infrastructure and delivery.
+I'm Charles Bucher, a Cloud Infrastructure Engineer building secure, scalable AWS solutions. I focus on Infrastructure-as-Code with Terraform, automated deployments, and security-first architecture.
 
 🔗 Related Repos
 - aws-ec2-s3-cloudwatch-infra — EC2 Monitoring & Logging
