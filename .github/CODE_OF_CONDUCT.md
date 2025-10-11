@@ -19,7 +19,7 @@ Examples of unacceptable behavior:
 This Code of Conduct applies within project spaces and in public channels related to the project (issue trackers, pull requests, chat rooms, social media, etc.).
 
 ## Enforcement
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the repository owner at `tommy813-lab@example.com` (replace with your preferred contact). All reports will be handled with discretion and confidentiality.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the repository owner at `Charles-Bucher@example.com` (replace with your preferred contact). All reports will be handled with discretion and confidentiality.
 
 Maintainers who fail to follow or enforce the Code of Conduct may be temporarily or permanently removed from the project at the discretion of the project owner.
 

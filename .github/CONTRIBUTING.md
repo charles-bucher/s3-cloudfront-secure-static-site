@@ -14,7 +14,7 @@ Thanks for wanting to contribute — you rock! 🙌 This document explains how t
 ## Development workflow (recommended)
 ```bash
 # clone
-git clone https://github.com/Tommy813-lab/s3-cloudfront-secure-static-site.git
+git clone https://github.com/Charles-Bucher/s3-cloudfront-secure-static-site.git
 cd s3-cloudfront-secure-static-site
 
 # create branch
