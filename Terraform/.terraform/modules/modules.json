@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"acm_cert","Source":"./modules/acm","Dir":""},{"Key":"cloudfront","Source":"./modules/cloudfront","Dir":""},{"Key":"s3_static_site","Source":"./modules/s3","Dir":""}]}
