@@ -44,6 +44,19 @@ This project proves I understand the difference between "making it work" and "ma
          │  • Access Logs   │
          └─────────────────┘
 
+## Screenshots
+
+### IAM Deployment
+![IAM Deployment](screenshots/IAM\ Deploy\ screenshot.png)
+
+### S3 Creation
+![S3 Creation](screenshots/s3\ creation\ screenshot.png)
+
+
+
+
+
+
 🔥 KEY FEATURES
 🔐 Security First
 
