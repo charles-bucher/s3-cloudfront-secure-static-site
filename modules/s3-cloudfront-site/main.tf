@@ -17,6 +17,10 @@ resource "aws_s3_bucket_public_access_block" "block" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+output "cloudfront_url" {
+  description = "The CloudFront distribution URL for the static site"
+  value       = module.cloudfront.cloudfront_url
+}
 
 # Bucket policy will be attached after origin access control is created.
 
