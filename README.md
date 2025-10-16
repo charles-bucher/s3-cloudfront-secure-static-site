@@ -1,5 +1,8 @@
 
 ☁️ S3 + CloudFront Secure Static Site Hosting
+
+☁️ S3 + CloudFront | 🔐 Secure | 🚀 Fast | 💰 Cost-Efficient | 🧱 Terraform | 🖼️ Diagrammed
+
 High-Performance, Globally-Distributed Web Hosting with AWS
 Show Image
 Show Image
