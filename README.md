@@ -1,14 +1,26 @@
 
 ☁️ S3 + CloudFront Secure Static Site Hosting
 
-☁️ S3 + CloudFront | 🔐 Secure | 🚀 Fast | 💰 Cost-Efficient | 🧱 Terraform | 🖼️ Diagrammed
+☁️ S3 + CloudFront | 🔐 Secure | 🚀 Fast | 💰 Cost-Efficient | 🧱 Terraform | 
 
+
+## 🛡️ Cert Alignment + Badges
+
+| AWS Service     | Cert Domain            | Badge |
+|-----------------|------------------------|-------|
+| S3 + CloudFront | Solutions Architect    | ![SAA](https://img.shields.io/badge/SAA-S3%2FCloudFront-blue) |
+| IAM             | Security Specialty     | ![Security](https://img.shields.io/badge/Security-IAM%2FOAI-red) |
+| Terraform       | Infrastructure as Code | ![IaC](https://img.shields.io/badge/Terraform-Modular%20IaC-purple) |
+
+
++🖼️ Diagrammed
 High-Performance, Globally-Distributed Web Hosting with AWS
 Show Image
 Show Image
 Show Image
 Show Image
 </div>
+
 
 🎯 PROJECT OVERVIEW
 This project demonstrates a production-ready static website hosting solution using AWS S3 and CloudFront CDN. It's not just a basic S3 bucket—it's a fully secure, performant, and cost-optimized architecture following AWS best practices.
@@ -159,10 +171,8 @@ Check out my other AWS infrastructure projects:
 🔐 GuardDuty Threat Response - Automated security
 
 
-📫 CONNECT WITH ME
-Show Image
-Show Image
-Show Image
+📫 CONNECT WITH ME             
+https://github.com/charles-bucher
 
 <div align="center">
 ⚡ Building production-grade infrastructure, one project at a time.
