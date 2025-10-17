@@ -1,109 +1,110 @@
-terraform {
-  required_version = ">= 1.0"
-  
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
+# S3 bucket for static website hosting
+resource "aws_s3_bucket" "static_site" {
+  bucket = var.bucket_name
 
-  # Optional: Configure remote backend for state management
-  # backend "s3" {
-  #   bucket         = "your-terraform-state-bucket"
-  #   key            = "static-site/terraform.tfstate"
-  #   region         = "us-east-1"
-  #   encrypt        = true
-  #   dynamodb_table = "terraform-state-lock"
-  # }
+  tags = merge(
+    var.tags,
+    {
+      Name = var.bucket_name
+    }
+  )
 }
 
-# Provider configuration
-provider "aws" {
-  region = var.aws_region
-  
-  default_tags {
-    tags = {
-      Environment = var.environment
-      ManagedBy   = "Terraform"
-      Project     = "StaticSite"
-    }
+# Bucket versioning
+resource "aws_s3_bucket_versioning" "static_site" {
+  bucket = aws_s3_bucket.static_site.id
+
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
-# Additional provider for ACM (must be us-east-1 for CloudFront)
-provider "aws" {
-  alias  = "us_east_1"
-  region = "us-east-1"
-  
-  default_tags {
-    tags = {
-      Environment = var.environment
-      ManagedBy   = "Terraform"
-      Project     = "StaticSite"
+# Server-side encryption
+resource "aws_s3_bucket_server_side_encryption_configuration" "static_site" {
+  bucket = aws_s3_bucket.static_site.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
     }
   }
 }
 
-# S3 Static Site Module
-module "s3_static_site" {
-  source = "./modules/s3"
-  
-  bucket_name = var.bucket_name
-  index_file  = var.index_file
-  error_file  = var.error_file
-  environment = var.environment
-  
-  tags = var.tags
+# Block public access
+resource "aws_s3_bucket_public_access_block" "static_site" {
+  bucket = aws_s3_bucket.static_site.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
-# ACM Certificate Module (must be in us-east-1 for CloudFront)
-module "acm_cert" {
-  source = "./modules/acm"
-  
-  providers = {
-    aws = aws.us_east_1
+# CloudFront Origin Access Identity
+resource "aws_cloudfront_origin_access_identity" "static_site" {
+  comment = "OAI for ${var.bucket_name}"
+}
+
+# Bucket policy to allow CloudFront access
+resource "aws_s3_bucket_policy" "static_site" {
+  bucket = aws_s3_bucket.static_site.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowCloudFrontOAI"
+        Effect = "Allow"
+        Principal = {
+          AWS = aws_cloudfront_origin_access_identity.static_site.iam_arn
+        }
+        Action   = "s3:GetObject"
+        Resource = "${aws_s3_bucket.static_site.arn}/*"
+      }
+    ]
+  })
+}
+
+# Website configuration
+resource "aws_s3_bucket_website_configuration" "static_site" {
+  bucket = aws_s3_bucket.static_site.id
+
+  index_document {
+    suffix = var.index_file
   }
-  
-  domain_name             = var.domain_name
-  subject_alternative_names = var.subject_alternative_names
-  validation_method       = var.validation_method
-  
-  tags = var.tags
+
+  error_document {
+    key = var.error_file
+  }
 }
 
-# CloudFront Module
-module "cloudfront" {
-  source = "./modules/cloudfront"
-  
-  # Explicit dependency on other modules
-  depends_on = [
-    module.s3_static_site,
-    module.acm_cert
-  ]
-  
-  domain_name            = var.domain_name
-  domain_aliases         = concat([var.domain_name], var.subject_alternative_names)
-  acm_certificate_arn    = module.acm_cert.certificate_arn
-  s3_bucket_name         = module.s3_static_site.bucket_name
-  s3_bucket_domain_name  = module.s3_static_site.bucket_regional_domain_name
-  s3_bucket_id           = module.s3_static_site.bucket_id
-  origin_access_identity = module.s3_static_site.cloudfront_oai_path
-  
-  price_class            = var.cloudfront_price_class
-  default_root_object    = var.index_file
-  environment            = var.environment
-  
-  tags = var.tags
+# Lifecycle policy for cost optimization
+resource "aws_s3_bucket_lifecycle_configuration" "static_site" {
+  bucket = aws_s3_bucket.static_site.id
+
+  rule {
+    id     = "delete-old-versions"
+    status = "Enabled"
+
+    noncurrent_version_expiration {
+      noncurrent_days = 90
+    }
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+  }
 }
 
-# Optional: Route53 Module for DNS management
-# module "route53" {
-#   source = "./modules/route53"
-#   
-#   domain_name            = var.domain_name
-#   cloudfront_domain_name = module.cloudfront.distribution_domain_name
-#   cloudfront_hosted_zone = module.cloudfront.distribution_hosted_zone_id
-#   
-#   tags = var.tags
-# }
+# CORS configuration
+resource "aws_s3_bucket_cors_configuration" "static_site" {
+  bucket = aws_s3_bucket.static_site.id
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET", "HEAD"]
+    allowed_origins = ["*"]
+    expose_headers  = ["ETag"]
+    max_age_seconds = 3000
+  }
+}
