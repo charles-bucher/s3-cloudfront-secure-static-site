@@ -1,7 +1,8 @@
 
 ☁️ S3 + CloudFront Secure Static Site Hosting
 
-☁️ S3 + CloudFront | 🔐 Secure | 🚀 Fast | 💰 Cost-Efficient | 🧱 Terraform | 
+
+> 🚀 Deploy a secure, global static website using AWS S3 + CloudFront with Terraform. This repo demonstrates cert-aligned architecture, IAM hardening, CDN optimization, and cost-efficient design—perfect for marketing sites, dashboards, and SPAs.☁️ S3 + CloudFront | 🔐 Secure | 🚀 Fast | 💰 Cost-Efficient | 🧱 Terraform | 
 
 
 ## 🛡️ Cert Alignment + Badges
