@@ -1,8 +1,14 @@
 
+=======
 ☁️ S3 + CloudFront Secure Static Site Hosting
 
 
 > 🚀 Deploy a secure, global static website using AWS S3 + CloudFront with Terraform. This repo demonstrates cert-aligned architecture, IAM hardening, CDN optimization, and cost-efficient design—perfect for marketing sites, dashboards, and SPAs.☁️ S3 + CloudFront | 🔐 Secure | 🚀 Fast | 💰 Cost-Efficient | 🧱 Terraform | 
+
+
+![IAM Deployment](screenshots/IAM_Deploy_screenshot.png)
+![S3 Creation](screenshots/s3_creation_screenshot.png)
+
 
 
 ## 🛡️ Cert Alignment + Badges
@@ -179,3 +185,4 @@ https://github.com/charles-bucher
 ⚡ Building production-grade infrastructure, one project at a time.
 Show Image
 </div>
+>>>>>>> eb59d3141ca4fea0f1dfc37756adec5f37bb66e7
