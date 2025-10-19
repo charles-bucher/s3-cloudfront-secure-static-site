@@ -56,3 +56,8 @@ it-support-automation-lab/
 - GitHub: https://github.com/charles-bucher  
 - LinkedIn: https://linkedin.com/in/charles-bucher85813  
 
+---
+
+## 📸 Screenshots
+
+Below are example screenshots from this project for visual verification and demonstration:
