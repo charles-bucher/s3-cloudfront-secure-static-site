@@ -1,17 +1,17 @@
 variable "name" {
   type        = string
-  description = "Base name for resources (e.g. example-com)"
+  description = "Base name for resources (e.g. <REMOVED-your-domain.dev>)"
 }
 
 variable "domain_name" {
   type        = string
-  description = "Primary domain (e.g. example.com). If empty, no custom domain."
+  description = "Primary domain (e.g. <REMOVED-your-domain.dev>). If empty, no custom domain."
   default     = ""
 }
 
 variable "aliases" {
   type        = list(string)
-  description = "Additional domain aliases for CloudFront (e.g. [\"www.example.com\"])"
+  description = "Additional domain aliases for CloudFront (e.g. [\"www.<REMOVED-your-domain.dev>\"])"
   default     = []
 }
 
