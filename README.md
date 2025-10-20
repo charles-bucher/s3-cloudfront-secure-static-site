@@ -61,3 +61,14 @@ it-support-automation-lab/
 ## 📸 Screenshots
 
 Below are example screenshots from this project for visual verification and demonstration:
+
+## Screenshots
+
+<img src="screenshots/IAM Deploy screenshot.png" alt="IAM Deploy screenshot.png" width="400px">
+
+<img src="screenshots/s3 creation screenshot.png" alt="s3 creation screenshot.png" width="400px">
+
+<img src="screenshots/IAM Deploy screenshot.png" alt="IAM Deploy screenshot.png" width="400px">
+
+<img src="screenshots/s3 creation screenshot.png" alt="s3 creation screenshot.png" width="400px">
+
